@@ -5,7 +5,7 @@ type FavoritesProps = {
   userName: string,
 }
 
-function Favorites({userName}: FavoritesProps): JSX.Element {
+function FavoritesScreen({userName}: FavoritesProps): JSX.Element {
   return (
     <div className="page">
       <Header userName = {userName}/>
@@ -54,4 +54,4 @@ function Favorites({userName}: FavoritesProps): JSX.Element {
   );
 }
 
-export default Favorites;
+export default FavoritesScreen;

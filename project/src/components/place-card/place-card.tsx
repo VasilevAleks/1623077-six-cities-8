@@ -5,7 +5,7 @@ function PlaceCard(): JSX.Element {
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#section">
+        <a href="/offer/:id">
           <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place" />
         </a>
       </div>
