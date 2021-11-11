@@ -22,7 +22,7 @@ function App({userName, placesCount, offers , reviews}: AppScreenProps): JSX.Ele
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Root}>
-          <MainScreen userName = {userName} placesCount = {placesCount} offers = {offers} />
+          <MainScreen userName = {userName} placesCount = {placesCount} offers = {offers}/>
         </Route>
         <Route exact path={AppRoute.Login}>
           <LoginScreen/>

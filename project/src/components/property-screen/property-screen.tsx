@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import Header from '../header/header-site';
 import {Offer} from '../../types/offers';
 import {ReviewsComment} from '../../types/reviews';
@@ -10,7 +10,6 @@ type PropertyScreenProps = {
 }
 
 function PropertyScreen({userName, offers, reviews }: PropertyScreenProps): JSX.Element {
-  console.log(offers);
   return (
     <div className="page">
 

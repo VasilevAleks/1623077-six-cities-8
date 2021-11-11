@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { useState } from 'react';
 import {Offer} from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
@@ -18,7 +18,6 @@ function PlacesList({ offers }: OffersListProps): JSX.Element {
         <article key={data.id}
           onPointerEnter={() => {
             setActiveCardId(data.id);
-            console.log(activeCardId); // УБРАТЬ
           }}
           onPointerLeave={() => {
             setActiveCardId(null);
