@@ -1,6 +1,8 @@
+
 import PlacesList from '../places-list/places-list';
 import Header from '../header/header-site';
-import {Offer} from '../../types/offers';
+import Map from '../map/map';
+import { Offer} from '../../types/offers';
 
 
 type MainScreenProps = {
@@ -10,6 +12,7 @@ type MainScreenProps = {
 }
 
 function MainScreen({userName, placesCount, offers}: MainScreenProps): JSX.Element {
+
   return (
     <div className="page page--gray page--main">
 
@@ -77,9 +80,7 @@ function MainScreen({userName, placesCount, offers}: MainScreenProps): JSX.Eleme
                 <PlacesList offers={offers} />
               </div>
             </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
-            </div>
+            <Map offers={offers} />
           </div>
         </div>
       </main>

@@ -3,7 +3,7 @@ import { useState } from 'react';
 function ReviewForm(): JSX.Element {
 
   const [rating, setRating] = useState('0');
-  const [comment, setTComment] = useState('');
+  const [comment, setComment] = useState('');
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -44,7 +44,7 @@ function ReviewForm(): JSX.Element {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder={comment} onChange={(event) => setTComment(`${event.target.value}`)}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder={comment} onChange={(event) => setComment(`${event.target.value}`)}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
