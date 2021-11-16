@@ -3,7 +3,11 @@ import leaflet from 'leaflet';
 import { Map } from 'leaflet';
 import { CityLocation } from '../types/offers';
 
+const MAP_TILE_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+const MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: CityLocation): Map | null {
+  const { location } = city;
   const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
@@ -18,16 +22,21 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: CityLocation
 
       leaflet
         .tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          MAP_TILE_LAYER,
           {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            attribution: MAP_COPYRIGHT,
           },
         )
         .addTo(instance);
 
       setMap(instance);
+    } else {
+      map?.setView({
+        lat: location.latitude,
+        lng: location.longitude,
+      }, location.zoom);
     }
-  }, [mapRef, map, city]);
+  }, [mapRef, map, location, city]);
 
   return map;
 }

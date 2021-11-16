@@ -1,86 +1,78 @@
-
-import PlacesList from '../places-list/places-list';
+import CitiesListComponents from './city-list';
+import MainScreenEmptyComponents from './main-screen-empty';
+import MainScreenData from './main-screen-data';
 import Header from '../header/header-site';
-import Map from '../map/map';
 import { Offer} from '../../types/offers';
-
+import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
+import { SortTypes } from '../../const';
 
 type MainScreenProps = {
   userName: string,
-  placesCount: number,
   offers: Offer[],
+  cities: string[],
+  thisCity: string,
 }
 
-function MainScreen({userName, placesCount, offers}: MainScreenProps): JSX.Element {
+const mapStateToProps = ({ currentSortType }: State) => ({
+  currentSortType,
+});
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
+
+function MainScreen({ cities, offers, thisCity, userName, currentSortType }: ConnectedComponentProps): JSX.Element {
+  const [activeCard, setActiveCard] = useState<Offer | null>(null);
+
+  const handleActiveCard = (offer: Offer | null): void => {
+    setActiveCard(offer);
+  };
+
+  const getSortedOffers = (SortType: string, offer: Offer[]) => {
+    switch (SortType) {
+      case SortTypes.PRICE_UP: {
+        return offer.slice().sort((offerA, offerB) => offerB.price - offerA.price);
+      }
+      case SortTypes.PRICE_DOWN: {
+        return offer.slice().sort((offerA, offerB) => offerA.price - offerB.price);
+      }
+      case SortTypes.RATING_DOWN: {
+        return offer.slice().sort((offerA, offerB) => offerB.rating - offerA.rating);
+      }
+      default: {
+        return offer;
+      }
+    }
+  };
+
+  const sortedOffers = getSortedOffers(currentSortType, offers);
+
+  const mainClass = offers.length > 0 ? 'page__main page__main--index'
+    : 'page__main page__main--index page__main--index-empty';
+
+  const containerClass = offers.length > 0
+    ? 'cities__places-container container'
+    : 'cities__places-container cities__places-container--empty container';
 
   return (
     <div className="page page--gray page--main">
-
       <Header userName = {userName}/>
-
-      <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#section">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#section">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#section">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="#section">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#section">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#section">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+      <main className={mainClass}>
+        <CitiesListComponents cities={cities} />
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom">
-                  <li className="places__option" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlacesList offers={offers} />
-              </div>
-            </section>
-            <Map offers={offers} />
+          <div className={containerClass}>
+            {offers.length === 0 && <MainScreenEmptyComponents city={thisCity} />}
+            {offers.length > 0 &&
+              <MainScreenData
+                city={thisCity}
+                offers={offers}
+                sortType={currentSortType}
+                sortedOffers={sortedOffers}
+                handleActiveCard={handleActiveCard}
+                activeCard={activeCard}
+              />}
           </div>
         </div>
       </main>
@@ -88,4 +80,6 @@ function MainScreen({userName, placesCount, offers}: MainScreenProps): JSX.Eleme
   );
 }
 
-export default MainScreen;
+export { MainScreen };
+export default connector(MainScreen);
+
