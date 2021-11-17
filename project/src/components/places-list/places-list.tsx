@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 
-import { useState } from 'react';
+
 import {Offer} from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
 
 type OffersListProps = {
   offers: Offer[];
+  handleActiveCard: (offer: Offer | null) => void,
 }
 
-function PlacesList({ offers }: OffersListProps): JSX.Element {
-  const [activeCardId, setActiveCardId] = useState<Offer | number | null>(null);
+function PlacesList({ offers, handleActiveCard  }: OffersListProps): JSX.Element {
 
 
   return (
@@ -17,13 +17,12 @@ function PlacesList({ offers }: OffersListProps): JSX.Element {
       {offers.map((data: Offer) => (
         <article key={data.id}
           onPointerEnter={() => {
-            setActiveCardId(data.id);
+            handleActiveCard(data);
           }}
           onPointerLeave={() => {
-            setActiveCardId(null);
+            handleActiveCard(null);
           }}
           className="cities__place-card place-card"
-
         >
           {data.IsPremium &&
             <div className="place-card__mark">

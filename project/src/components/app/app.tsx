@@ -1,3 +1,4 @@
+
 import MainScreen from '../main-screen/main-screen';
 import FavoritesScreen from '../favorites/favorites';
 import LoginScreen from '../login/login';
@@ -8,21 +9,36 @@ import NotFoundScreen from '../screen-404/404-screen';
 import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offers';
 import {ReviewsComment} from '../../types/reviews';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
 
 type AppScreenProps = {
-  userName: string,
-  placesCount: number,
   offers: Offer[],
   reviews: ReviewsComment[],
+  cities: string[],
+  userName: string,
 }
 
+const mapStateToProps = ({ thisCity, offers }: State) => ({
+  thisCity,
+  offers,
+});
 
-function App({userName, placesCount, offers , reviews}: AppScreenProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
+
+function App({userName, offers, cities, reviews, thisCity}: ConnectedComponentProps): JSX.Element {
+  const favoritesOffers = offers.filter((offer) => offer.IsFavorite);
+  const cityOffers = offers.filter((offer) => offer.city.name === thisCity );
+
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Root}>
-          <MainScreen userName = {userName} placesCount = {placesCount} offers = {offers}/>
+          <MainScreen userName = {userName}  offers = {cityOffers}  cities = {cities} thisCity = {thisCity} />
         </Route>
         <Route exact path={AppRoute.Login}>
           <LoginScreen/>
@@ -30,7 +46,7 @@ function App({userName, placesCount, offers , reviews}: AppScreenProps): JSX.Ele
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <FavoritesScreen userName = {userName} offers = {offers} />}
+          render={() => <FavoritesScreen userName = {userName} offers = {favoritesOffers} />}
           authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
@@ -45,4 +61,5 @@ function App({userName, placesCount, offers , reviews}: AppScreenProps): JSX.Ele
   );
 }
 
-export default App;
+export { App };
+export default connector(App);

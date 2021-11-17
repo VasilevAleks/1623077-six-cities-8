@@ -9,8 +9,7 @@ type OffersListProps = {
 const url = '';
 
 function FavoritesList({ offers }: OffersListProps): JSX.Element {
-  const favoritesOffers = offers.filter((offer) => offer.IsFavorite);
-  const individualCities = Array.from(new Set(favoritesOffers.map((offer) => offer.city.name)));
+  const individualCities = Array.from(new Set( offers.map((offer) => offer.city.name)));
 
   return (
     <ul className="favorites__list">
@@ -27,7 +26,7 @@ function FavoritesList({ offers }: OffersListProps): JSX.Element {
             </div>
           </div>
           <div className="favorites__places">
-            {favoritesOffers.map((offer: Offer) => {
+            { offers.map((offer: Offer) => {
               if (offer.city.name !== city) {
                 return '';
               }
