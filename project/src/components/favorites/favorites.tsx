@@ -1,32 +1,23 @@
-import FavoritesList from '../favorite-list/favorites-list';
-import Header from '../header/header-site';
-import {Offer} from '../../types/offers';
+import { Offer } from '../../types/offer';
+import FavoriteListComponent from '../favorites-list/favorites-list';
 
 type FavoritesProps = {
-  userName: string,
-  offers: Offer[],
+  favoritesOffers: Offer[];
 }
 
-function FavoritesScreen({userName, offers}: FavoritesProps): JSX.Element {
-  return (
-    <div className="page">
-      <Header userName = {userName}/>
+function FavoritesComponent({ favoritesOffers }: FavoritesProps): JSX.Element {
+  const cityList = Array.from(new Set(favoritesOffers.map(({ city }) => city.name)));
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offers} />
-          </section>
-        </div>
-      </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
-      </footer>
-    </div>
+  return (
+    <main className="page__main page__main--favorites">
+      <div className="page__favorites-container container">
+        <section className="favorites">
+          <h1 className="favorites__title">Saved listing</h1>
+          <FavoriteListComponent cities={cityList} favoritesOffers={favoritesOffers} />
+        </section>
+      </div>
+    </main>
   );
 }
 
-export default FavoritesScreen;
+export default FavoritesComponent;
