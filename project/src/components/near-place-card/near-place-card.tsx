@@ -8,10 +8,9 @@ import { getRating } from '../../utils/utils';
 
 type NearPlaceCardProps = {
   nearOffer: Offer,
-  handleActiveCard: (offer: Offer | null) => void,
 }
 
-function NearPlaceCardComponent({ nearOffer, handleActiveCard }: NearPlaceCardProps): JSX.Element {
+function NearPlaceCardComponent({ nearOffer}: NearPlaceCardProps): JSX.Element {
   const { type, title, price, rating, isPremium, isFavorite, previewImage, id } = nearOffer;
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button place-card__bookmark-button--active button'
@@ -32,10 +31,7 @@ function NearPlaceCardComponent({ nearOffer, handleActiveCard }: NearPlaceCardPr
   };
 
   return (
-    <article className="near-places__card place-card"
-      onMouseEnter={() => handleActiveCard(nearOffer)}
-      onMouseLeave={() => handleActiveCard(null)}
-    >
+    <article className="near-places__card place-card">
       {getPremiumMark}
       <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>

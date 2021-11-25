@@ -3,16 +3,14 @@ import NearPlaceCardComponent from '../near-place-card/near-place-card';
 
 type NearPlacesProprs = {
   nearOffers: Offer[],
-  handleActiveCard: (card: Offer | null) => void;
 }
 
-function NearPlacesComponent({ nearOffers, handleActiveCard }: NearPlacesProprs): JSX.Element {
+function NearPlacesComponent({ nearOffers}: NearPlacesProprs): JSX.Element {
 
   const nearPlaces = nearOffers.map((nearOffer) => (
     <NearPlaceCardComponent
       key={nearOffer.id}
       nearOffer={nearOffer}
-      handleActiveCard={handleActiveCard}
     />
   ));
 
