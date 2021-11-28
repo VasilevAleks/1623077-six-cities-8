@@ -10,7 +10,7 @@ function ReviewsComponent(): JSX.Element {
   const reviews = useSelector(getReviews);
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
-  const cropedSortedReviews = reviews.slice(0, MAX_REVIEWS).sort(sortReviewsUpDate);
+  const cropedSortedReviews = [...reviews].sort(sortReviewsUpDate).slice(0, MAX_REVIEWS);
 
   return (
     <section className="property__reviews reviews">

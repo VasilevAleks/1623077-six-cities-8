@@ -22,7 +22,7 @@ function FavoriteItemCardComponent({ offer }: FavoriteItemCardProps): JSX.Elemen
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleFavoriteBthClick = (card: Offer) => {
+  const handleFavoriteBthClick = () => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(postFavorititeAction(offer.id, !offer.isFavorite));
     } else {
@@ -47,7 +47,7 @@ function FavoriteItemCardComponent({ offer }: FavoriteItemCardProps): JSX.Elemen
           <button
             className={bookmarkButtonClass}
             type="button"
-            onClick={() => handleFavoriteBthClick(offer)}
+            onClick={() => handleFavoriteBthClick()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

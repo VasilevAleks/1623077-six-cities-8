@@ -32,7 +32,7 @@ export const SortTypes = {
   RATING_DOWN: 'Top rated first',
 };
 
-export const ratingStars: { [key: string]: string } = {
+export const StarRating: { [key: string]: string } = {
   5: 'perfect',
   4: 'good',
   3: 'not bad',

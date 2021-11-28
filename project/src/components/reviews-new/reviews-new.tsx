@@ -1,14 +1,15 @@
 import { FormEvent, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ratingStars } from '../../const';
+import { StarRating } from '../../const';
 import { postCommentsAction } from '../../store/actions/api-actions';
-import { getOfferById } from '../../store/selectors/selectors';
+import { getOfferById, getIsPostCommentLoadingStatus } from '../../store/selectors/selectors';
 import { CommentPost } from '../../types/commentPost';
 import { ReviewsItemForm } from '../../types/reviews-item-form';
 import RatingInputComponent from '../rating-input/rating-input';
 
 function ReviewNewComponent(): JSX.Element {
   const offerById = useSelector(getOfferById);
+  const postCommentLoading = useSelector(getIsPostCommentLoadingStatus);
   const dispatch = useDispatch();
 
   const onSubmit = (commentPost: CommentPost) => {
@@ -32,7 +33,7 @@ function ReviewNewComponent(): JSX.Element {
     evt.preventDefault();
 
     onSubmit({
-      id: offerById?.id as string | undefined,
+      id: offerById?.id as unknown as string | undefined,
       rating: Number(formState.rating.value),
       comment: formState.review.value,
     });
@@ -71,15 +72,23 @@ function ReviewNewComponent(): JSX.Element {
     });
   };
 
+  const buttonText = postCommentLoading ? 'Submitting' : 'Submit';
+
+  const isDisabled =
+    formState.rating.value === '0'
+    || formState.review.value.length < 50
+    || formState.review.value.length > 300
+    || postCommentLoading;
+
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {Object.keys(ratingStars).reverse().map((number) => (
+        {Object.keys(StarRating).reverse().map((number) => (
           <RatingInputComponent
             number={number}
             key={number}
-            title={ratingStars[number]}
+            title={StarRating[number]}
             value={formState.rating.value}
             onChange={handleChange}
           />))}
@@ -95,9 +104,9 @@ function ReviewNewComponent(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!formState.review.isValid || !formState.rating.isValid}
+          disabled={isDisabled}
         >
-          Submit
+          {buttonText}
         </button>
       </div>
     </form>
