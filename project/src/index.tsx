@@ -8,6 +8,9 @@ import { requireAuthorizationSucces } from './store/actions/action';
 import { fetchOffersAction, checkAuthAction } from './store/actions/api-actions';
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './store/reducer/root-reducer';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const api = createAPI(
   () => store.dispatch(requireAuthorizationSucces(AuthorizationStatus.NoAuth)),
@@ -29,6 +32,7 @@ store.dispatch(fetchOffersAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store} >
+      <ToastContainer />
       <App />
     </Provider>
   </React.StrictMode>,

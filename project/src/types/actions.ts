@@ -38,3 +38,4 @@ export enum ActionType {
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
+

@@ -27,12 +27,12 @@ type MapProps = {
 }
 
 function Map({ offers, activeCard }: MapProps): JSX.Element {
+
   const [{ city }] = offers;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   const markerLayerRef = useRef<LayerGroup>();
-
 
   useEffect(() => {
     if (map) {

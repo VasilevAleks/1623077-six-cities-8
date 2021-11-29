@@ -2,7 +2,7 @@ import { FormEvent, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StarRating } from '../../const';
 import { postCommentsAction } from '../../store/actions/api-actions';
-import { getOfferById, getIsPostCommentLoadingStatus } from '../../store/selectors/selectors';
+import { getIsPostCommentLoadingStatus, getOfferById } from '../../store/selectors/selectors';
 import { CommentPost } from '../../types/commentPost';
 import { ReviewsItemForm } from '../../types/reviews-item-form';
 import RatingInputComponent from '../rating-input/rating-input';
@@ -10,6 +10,7 @@ import RatingInputComponent from '../rating-input/rating-input';
 function ReviewNewComponent(): JSX.Element {
   const offerById = useSelector(getOfferById);
   const postCommentLoading = useSelector(getIsPostCommentLoadingStatus);
+
   const dispatch = useDispatch();
 
   const onSubmit = (commentPost: CommentPost) => {
@@ -19,11 +20,9 @@ function ReviewNewComponent(): JSX.Element {
   const [formState, setFormState] = useState<{ [key: string]: ReviewsItemForm }>({
     rating: {
       value: '0',
-      isValid: false,
     },
     review: {
       value: '',
-      isValid: false,
       minValue: 50,
       maxValue: 300,
     },
@@ -33,7 +32,7 @@ function ReviewNewComponent(): JSX.Element {
     evt.preventDefault();
 
     onSubmit({
-      id: offerById?.id as unknown as string | undefined,
+      id: offerById?.id as string | undefined,
       rating: Number(formState.rating.value),
       comment: formState.review.value,
     });
@@ -55,19 +54,11 @@ function ReviewNewComponent(): JSX.Element {
   const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
 
-    let isValid = false;
-    if (name === 'review' && formState.review.maxValue && formState.review.minValue) {
-      isValid = Boolean(value.length >= formState.review.minValue && value.length < formState.review.maxValue);
-    } else {
-      isValid = Boolean(value);
-    }
-
     setFormState({
       ...formState,
       [name]: {
         ...formState[name],
         value,
-        isValid,
       },
     });
   };

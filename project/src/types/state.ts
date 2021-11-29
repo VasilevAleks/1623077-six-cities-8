@@ -29,6 +29,9 @@ export type DataReducerState = {
   postCommentSuccess: boolean,
   loadFavoriteOffersLoading: boolean,
   postFavoriteLoading: boolean,
+  isOfferLoaded: boolean,
+  isNearOffersLoaded: boolean,
+  isCommentsLoaded: boolean,
 };
 
 export type MainReducerState = {

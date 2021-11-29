@@ -13,7 +13,8 @@ function FavoritesScreen(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchFavoriteOffersAction());
-  });
+  }, [dispatch]);
+
 
   const pageMainFavoritesClass = favoritesOffers.length ? 'page' : 'page page--favorites-empty';
   const content = favoritesOffers.length ? <FavoritesComponent favoritesOffers={favoritesOffers} /> : <FavoritesEmptyComponent />;

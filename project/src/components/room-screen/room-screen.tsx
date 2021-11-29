@@ -9,16 +9,20 @@ import Map from '../map/map';
 import { useEffect } from 'react';
 import { getRating } from '../../utils/utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute, AuthorizationStatus, MAX_IMAGES, MAX_COUNT_NEAR_OFFERS } from '../../const';
+import { AppRoute, AuthorizationStatus, MAX_COUNT_NEAR_OFFERS, MAX_IMAGES } from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { fetchCommentsAction, fetchNearOffersAction, fetchOfferByIdAction, postFavorititeAction } from '../../store/actions/api-actions';
-import { getAuthorizationStatus, getNearOffers, getOfferById } from '../../store/selectors/selectors';
+import { getAuthorizationStatus, getIsCommentsLoadedStatus, getIsNearOffersLoadedStatus, getIsOfferLoadedStatus, getNearOffers, getOfferById } from '../../store/selectors/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function RoomScreen(): JSX.Element {
 
   const offerById = useSelector(getOfferById);
   const nearOffers = useSelector(getNearOffers);
   const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isOfferLoaded = useSelector(getIsOfferLoadedStatus);
+  const isNearOffersLoaded = useSelector(getIsNearOffersLoadedStatus);
+  const isCommentsLoaded = useSelector(getIsCommentsLoadedStatus);
 
   const { id } = useParams() as { id: string };
   const dispatch = useDispatch();
@@ -38,11 +42,17 @@ function RoomScreen(): JSX.Element {
     dispatch(fetchCommentsAction(id));
   }, [id, dispatch]);
 
+  if (!isOfferLoaded || !isNearOffersLoaded || !isCommentsLoaded) {
+    return <LoadingScreen />;
+  }
+
   if (!offerById) {
     return <NotFoundScreen />;
   }
+
   const { images, isFavorite, title, isPremium, host, price, rating, bedrooms, maxAdults, type, goods, description } = offerById;
   const { name, avatarUrl, isPro } = host;
+
   const nearOffersList = nearOffers.slice(0, MAX_COUNT_NEAR_OFFERS);
   const offersForMap = [...nearOffersList, offerById];
 

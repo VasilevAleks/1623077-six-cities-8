@@ -31,6 +31,7 @@ const userReducer = createReducer(initialState, (builder) => {
       const { authStatus, userData } = action.payload;
       state.authorizationStatus = authStatus;
       state.userData = userData;
+      state.authorizationLoading = false;
       state.isDataLoaded = true;
     })
     .addCase(requireAuthorizationFailure, (state: UserReducerState, action) => {

@@ -10,7 +10,7 @@ type NearPlaceCardProps = {
   nearOffer: Offer,
 }
 
-function NearPlaceCardComponent({ nearOffer}: NearPlaceCardProps): JSX.Element {
+function NearPlaceCardComponent({ nearOffer }: NearPlaceCardProps): JSX.Element {
   const { type, title, price, rating, isPremium, isFavorite, previewImage, id } = nearOffer;
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button place-card__bookmark-button--active button'
@@ -30,12 +30,23 @@ function NearPlaceCardComponent({ nearOffer}: NearPlaceCardProps): JSX.Element {
     }
   };
 
+  const handleScroll = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
+
     <article className="near-places__card place-card">
       {getPremiumMark}
       <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place view" />
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width="260" height="200"
+            alt="Place view"
+            onClick={() => handleScroll()}
+          />
         </Link>
       </div>
       <div className="place-card__info">
@@ -62,7 +73,12 @@ function NearPlaceCardComponent({ nearOffer}: NearPlaceCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{title}</Link>
+          <Link
+            to={`/offer/${id}`}
+            onClick={() => handleScroll()}
+          >
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

@@ -25,11 +25,12 @@ export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', '
 
 export const DEFAULT_SORT_TYPE = 'Popular';
 
+
 export const SortTypes = {
-  POPULAR: 'Popular',
-  PRICE_DOWN: 'Price: low to high',
-  PRICE_UP: 'Price: high to low',
-  RATING_DOWN: 'Top rated first',
+  Popular: 'Popular',
+  PriceDown: 'Price: low to high',
+  PriceUp: 'Price: high to low',
+  RatingDown: 'Top rated first',
 };
 
 export const StarRating: { [key: string]: string } = {
@@ -43,3 +44,15 @@ export const StarRating: { [key: string]: string } = {
 export const MAX_IMAGES = 6;
 export const MAX_REVIEWS = 10;
 export const MAX_COUNT_NEAR_OFFERS = 3;
+
+export enum ToastMessage {
+  AuthPromtMessage = 'Do not forget to log in',
+  LogoutFailMessage = 'Something went wrong',
+  LoginFailMessage = 'Login failed. Please try again',
+  FetchOfferByIdFailMessage = 'Failed to get data. Please try again',
+  FetchNearOfferFailMessage = 'Failed to get data. Please try again',
+  FetchCommentsFailMessage = 'Failed to get data. Please try again',
+  PostCommentFailMessage = 'Failed to send message. Please try again',
+  FetchFavoritesFailMessage = 'Failed to get data. Please try again',
+  PostFavoriteFailMessage = 'Failed to send data. Please try again',
+}

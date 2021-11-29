@@ -5,7 +5,7 @@ type NearPlacesProprs = {
   nearOffers: Offer[],
 }
 
-function NearPlacesComponent({ nearOffers}: NearPlacesProprs): JSX.Element {
+function NearPlacesComponent({ nearOffers }: NearPlacesProprs): JSX.Element {
 
   const nearPlaces = nearOffers.map((nearOffer) => (
     <NearPlaceCardComponent
